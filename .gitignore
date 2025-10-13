@@ -1,0 +1,35 @@
+# .NET / Visual Studio
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.userprefs
+*.opendb
+*.log
+[Tt]est[Rr]esult*/
+*.coverage*
+
+# Publicaciones locales
+**/Properties/PublishProfiles/*.pubxml
+**/Properties/PublishProfiles/*.pubxml.user
+
+# Paquetes locales
+packages/
+*.nupkg
+*.snupkg
+
+# Config locales/secretos
+appsettings.Development.json
+appsettings.Local.json
+
+# Obsidian (preferencias locales)
+.obsidian/
+.DS_Store
+Thumbs.db
+
+# Postman (runs locales)
+newman/
+
+# Otros comunes
+*.sqlite
