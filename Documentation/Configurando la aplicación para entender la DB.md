@@ -9,14 +9,21 @@ Como ya se creo la base de datos, hay que hacer uso de ciertos paquetes para tra
     
 - `Microsoft.EntityFrameworkCore.Design` → soporte de diseño para Tools.
 
-Antes de poder usar estos paquetes, hay que crear la conexión con la DB, para lo cual modificamos el archivo `appsettings.json` ubicado en `WebApplication1/appsettings.json` para establecer las credenciales para conectar con la base de datos.
+Antes de poder usar estos paquetes, hay que crear la conexión con la DB, para lo cual modificamos el archivo `appsettings.json` ubicado en `WebApplication1/appsettings.json` para establecer las credenciales para conectar con la base de datos. Para mayor seguridad, se usa UserSecrets para esconder la Direccion de conexion mostrada en el repo. 
+
+``` bash
+cd WebApplication1
+dotnet user-secrets init
+dotnet user-secrets set "ConnectionStrings:Default" "Server=...;Database=....;Trusted_Connection=...;TrustServerCertificate=..."
+```
+En donde aqui se asegura la conexión a la DB.
 
 ``` json
   "ConnectionStrings": {
-    "Default": "Server=localhost;Database=PruebaTecnica1;Trusted_Connection=True;TrustServerCertificate=True"
+    "Default": "USE-USER-SECRETS-OR-ENV"
   }
 ```
-
+Y de esta manera, la conexión queda asegurada.
 
 Una vez descargados los paquetes tanto en *Infra.Data* y *WebApplication1*,  y establecida la conexión, procedemos a ejecutar el siguiente comando en la **consola de manejo de paquetes.** Esto consiste en dar el contexto de la base de datos a EF de tal forma que se integre de manera efectiva con los archivos en la solución.
 
