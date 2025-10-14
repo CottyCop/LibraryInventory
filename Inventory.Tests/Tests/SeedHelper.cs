@@ -37,7 +37,6 @@ internal static class SeedHelper
         l1002.autores.Add(a2);   // MISMA instancia (no clones)
         l1002.autores.Add(a3);
 
-        // 👇 Solo agregamos libros; EF insertará todo el grafo y la N:M
         ctx.libros.AddRange(l1001, l1002);
         ctx.SaveChanges();
     }

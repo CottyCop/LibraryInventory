@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.Data.Sqlite;
+﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Infra.Data;
 
@@ -19,7 +13,7 @@ internal static class DbContextFixture
 
         var options = new DbContextOptionsBuilder<AppDbContext>()
             .UseSqlite(conn)
-            //.EnableSensitiveDataLogging() // <- descomenta si necesitas ver claves en conflicto
+           
             .Options;
 
         var ctx = new AppDbContext(options);

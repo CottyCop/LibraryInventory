@@ -18,13 +18,7 @@ using Domain.Models;                       // editoriale, autore, libro
 
 namespace Inventory.Tests
 {
-    // ---------- Fixture: DbContext con SQLite InMemory ----------
     
-
-    // ---------- Seed: datos de prueba ----------
-   
-
-    // ---------- Shim solo para TESTS: forma del objeto anónimo del listado ----------
     public record PagedResultShim<T>(int Total, int Page, int PageSize, System.Collections.Generic.List<T> Items);
 
     [TestFixture]
@@ -81,10 +75,9 @@ namespace Inventory.Tests
             Assert.That(result, Is.TypeOf<OkObjectResult>());
             var ok = (OkObjectResult)result;
 
-            // El detalle retorna un LibroDetalleDto concreto -> casteo directo
             var dto = (LibroDetalleDto)ok.Value!;
 
-            Assert.That(dto.ISBN, Is.EqualTo(1001));               // OJO: propiedad es "ISBN" (mayúsculas)
+            Assert.That(dto.ISBN, Is.EqualTo(1001));               
             Assert.That(dto.Titulo.ToLower(), Does.Contain("c#"));
             Assert.That(dto.Autores, Has.Some.Contains("Ana"));
             Assert.That(dto.Autores, Has.Some.Contains("Luis"));
