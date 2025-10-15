@@ -31,5 +31,5 @@ public record LibroListItemDto(
 ```
 
 Y este el encargado para mostrar todos los libros en inventario.
-De esta manera, al generar una solicitud HTTP, se harán usos de estas clases presentes en la carpeta `Dtos` para mapear esa información a la entidad correspondiente en `Domain.Models`, la cual será tratada de manera adecuada por EF y hace las consultas correspondiente en la DB.
+De esta manera, al generar una solicitud HTTP, se harán usos de estas clases presentes en la carpeta `Dtos` para mapear esa información a la entidad correspondiente en `Domain.Models`, la cual será tratada de manera adecuada por EF y hacer las consultas correspondiente en la DB.
 
