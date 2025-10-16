@@ -9,7 +9,7 @@ using System.Linq;
 namespace WebApplication1.Controllers;
 
 [ApiController]
-[Route("Inventario/[controller]")]
+[Route("Inventario/Libros/[controller]")]
 public class LibrosController : ControllerBase
 {
     private readonly AppDbContext _ctx;
