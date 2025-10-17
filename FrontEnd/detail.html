@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Detalle del libro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 24px; }
+    .row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .card { border: 1px solid #ddd; border-radius: 8px; padding: 16px; max-width: 680px; }
+    .muted { color: #666; }
+    ul { margin: 6px 0 0 20px; }
+  </style>
+</head>
+<body>
+  <h1>Detalle del libro</h1>
+  <nav class="row">
+    <a href="./index.html">← Volver al listado</a>
+    <span class="muted">|</span>
+    <span class="muted">API: <code id="apiBase"></code></span>
+  </nav>
+
+  <div class="row">
+    <input id="isbn" type="number" min="1" placeholder="ISBN" />
+    <button id="btn">Buscar</button>
+    <span id="status" class="muted"></span>
+  </div>
+
+  <div id="card" class="card" hidden>
+    <h2 id="titulo"></h2>
+    <p><strong>ISBN:</strong> <span id="isbnText"></span></p>
+    <p><strong>Editorial:</strong> <span id="editorial"></span></p>
+    <p><strong>Páginas:</strong> <span id="paginas"></span></p>
+    <p><strong>Sinopsis:</strong> <span id="sinopsis"></span></p>
+    <p><strong>Autores:</strong></p>
+    <ul id="autores"></ul>
+  </div>
+
+  <script src="./config.js"></script>
+  <script src="./api.js"></script>
+  <script>
+    const apiBaseEl = document.getElementById('apiBase');
+    apiBaseEl.textContent = window.APP_CONFIG?.BASE_URL ?? '(sin configurar)';
+
+    const isbnInput = document.getElementById('isbn');
+    const btn = document.getElementById('btn');
+    const statusEl = document.getElementById('status');
+    const card = document.getElementById('card');
+    const titulo = document.getElementById('titulo');
+    const isbnText = document.getElementById('isbnText');
+    const editorial = document.getElementById('editorial');
+    const paginas = document.getElementById('paginas');
+    const sinopsis = document.getElementById('sinopsis');
+    const autores = document.getElementById('autores');
+
+    // si viene ?isbn=123 en la URL, auto-carga
+    const url = new URL(location.href);
+    const initialIsbn = url.searchParams.get('isbn');
+    if (initialIsbn) { isbnInput.value = initialIsbn; buscar(); }
+
+    btn.addEventListener('click', buscar);
+
+    async function buscar() {
+      const isbn = isbnInput.value.trim();
+      if (!isbn) { statusEl.textContent = 'Ingresa un ISBN.'; return; }
+
+      statusEl.textContent = 'Buscando…';
+      card.hidden = true;
+      autores.innerHTML = '';
+
+      try {
+        const dto = await window.API.fetchLibroPorIsbn(isbn);
+        titulo.textContent = dto.titulo;
+        isbnText.textContent = dto.isbn;
+        editorial.textContent = dto.editorial;
+        paginas.textContent = dto.n_paginas;
+        sinopsis.textContent = dto.sipnosis;
+        dto.autores.forEach(n => {
+          const li = document.createElement('li');
+          li.textContent = n;
+          autores.appendChild(li);
+        });
+        card.hidden = false;
+        statusEl.textContent = '';
+      } catch (err) {
+        statusEl.textContent = `Error: ${err.message}`;
+      }
+    }
+  </script>
+</body>
+</html>

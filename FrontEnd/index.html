@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>Inventario de libros</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 24px; }
+    form, .toolbar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #ddd; padding: 8px; }
+    th { background: #f5f5f5; text-align: left; }
+    .pagination { display: flex; gap: 8px; align-items: center; margin-top: 12px; }
+    .muted { color: #666; }
+  </style>
+</head>
+<body>
+
+  <h1>Inventario</h1>
+
+  <nav class="toolbar">
+    <a href="./detail.html">Detalle por ISBN</a>
+    <span class="muted">|</span>
+    <span class="muted">API: <code id="apiBase"></code></span>
+  </nav>
+
+  <form id="searchForm">
+    <input id="q" name="q" placeholder="Buscar por título…" />
+    <input id="editorialId" name="editorialId" type="number" min="1" placeholder="EditorialId" />
+    <select id="pageSize" name="pageSize">
+      <option value="5">5</option>
+      <option value="10" selected>10</option>
+      <option value="20">20</option>
+    </select>
+    <button type="submit">Buscar</button>
+  </form>
+
+  <div id="status" class="muted"></div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ISBN</th>
+        <th>Título</th>
+        <th>Editorial</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="rows">
+      <!-- filas aquí -->
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    <button id="prevBtn" type="button">« Anterior</button>
+    <span id="pageInfo" class="muted"></span>
+    <button id="nextBtn" type="button">Siguiente »</button>
+  </div>
+
+  <script src="./config.js"></script>
+  <script src="./api.js"></script>
+  <script>
+    const apiBaseEl = document.getElementById('apiBase');
+    apiBaseEl.textContent = window.APP_CONFIG?.BASE_URL ?? '(sin configurar)';
+
+    const form = document.getElementById('searchForm');
+    const qEl = document.getElementById('q');
+    const editorialEl = document.getElementById('editorialId');
+    const pageSizeEl = document.getElementById('pageSize');
+    const rowsEl = document.getElementById('rows');
+    const statusEl = document.getElementById('status');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const pageInfo = document.getElementById('pageInfo');
+
+    let page = 1;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      page = 1;
+      await load();
+    });
+
+    prevBtn.addEventListener('click', async () => {
+      if (page > 1) { page--; await load(); }
+    });
+
+    nextBtn.addEventListener('click', async () => {
+      page++; await load();
+    });
+
+    async function load() {
+      const search = qEl.value.trim();
+      const editorialId = editorialEl.value ? Number(editorialEl.value) : undefined;
+      const pageSize = Number(pageSizeEl.value) || 10;
+
+      statusEl.textContent = 'Cargando…';
+      rowsEl.innerHTML = '';
+
+      try {
+        const data = await window.API.fetchLibros({ search, editorialId, page, pageSize });
+        // Render filas
+        for (const item of data.items) {
+          const tr = document.createElement('tr');
+
+          const tdIsbn = document.createElement('td');
+          tdIsbn.textContent = item.isbn;
+
+          const tdTitulo = document.createElement('td');
+          tdTitulo.textContent = item.titulo;
+
+          const tdEditorial = document.createElement('td');
+          tdEditorial.textContent = item.editorial;
+
+          const tdAcciones = document.createElement('td');
+          const a = document.createElement('a');
+          a.href = `./detail.html?isbn=${encodeURIComponent(item.isbn)}`;
+          a.textContent = 'Ver detalle';
+          tdAcciones.appendChild(a);
+
+          tr.append(tdIsbn, tdTitulo, tdEditorial, tdAcciones);
+          rowsEl.appendChild(tr);
+        }
+
+        const totalPages = Math.max(1, Math.ceil(data.total / data.pageSize));
+        pageInfo.textContent = `Página ${data.page} de ${totalPages} — ${data.total} total`;
+        prevBtn.disabled = page <= 1;
+        nextBtn.disabled = page >= totalPages;
+
+        statusEl.textContent = data.items.length ? '' : 'Sin resultados';
+      } catch (err) {
+        statusEl.textContent = `Error: ${err.message}`;
+      }
+    }
+
+    // carga inicial
+    load();
+  </script>
+</body>
+</html>

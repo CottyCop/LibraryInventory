@@ -65,11 +65,10 @@
     }
   }
 
-  // 6) Export público en el objeto global (simple para apps sin bundlers)
   window.API = {
     fetchLibros,
     fetchLibroPorIsbn,
-    // Exporto buildQuery si te sirve para depurar:
+    
     buildQuery,
   };
 })();
