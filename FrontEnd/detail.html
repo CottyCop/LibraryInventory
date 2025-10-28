@@ -4,13 +4,12 @@
   <meta charset="utf-8" />
   <title>Detalle del libro</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    body { font-family: system-ui, sans-serif; margin: 24px; }
-    .row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
-    .card { border: 1px solid #ddd; border-radius: 8px; padding: 16px; max-width: 680px; }
-    .muted { color: #666; }
-    ul { margin: 6px 0 0 20px; }
-  </style>
+  <link rel="stylesheet" href="./assets/css/base.css">
+  <link rel="stylesheet" href="./assets/css/layout.css">
+  <link rel="stylesheet" href="./assets/css/components.css">
+  <link rel="stylesheet" href="./assets/css/utilities.css">
+  <link rel="stylesheet" href="./assets/css/pages/detail.css">
+
 </head>
 <body>
   <h1>Detalle del libro</h1>
@@ -25,16 +24,25 @@
     <button id="btn">Buscar</button>
     <span id="status" class="muted"></span>
   </div>
+  
+  <div id="book-wrap" class="book-wrap" hidden>
+    <div id="card" class="card book" hidden>
 
-  <div id="card" class="card" hidden>
-    <h2 id="titulo"></h2>
-    <p><strong>ISBN:</strong> <span id="isbnText"></span></p>
-    <p><strong>Editorial:</strong> <span id="editorial"></span></p>
-    <p><strong>Páginas:</strong> <span id="paginas"></span></p>
-    <p><strong>Sinopsis:</strong> <span id="sinopsis"></span></p>
-    <p><strong>Autores:</strong></p>
-    <ul id="autores"></ul>
+      <div class="page left">
+      <h2 id="titulo"></h2>
+      <p><strong>ISBN:</strong> <span id="isbnText"></span></p>
+      <p><strong>Editorial:</strong> <span id="editorial"></span></p>
+      <p><strong>Páginas:</strong> <span id="paginas"></span></p>
+      <p><strong>Sinopsis:</strong> <span id="sinopsis"></span></p>
+      </div>
+
+      <div class="page right">
+      <p><strong>Autores:</strong></p>
+      <ul id="autores"></ul>
+      </div>
+    </div>
   </div>
+
 
   <script src="./config.js"></script>
   <script src="./api.js"></script>

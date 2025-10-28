@@ -11,7 +11,7 @@
     const paginas = document.getElementById('paginas');
     const sinopsis = document.getElementById('sinopsis');
     const autores = document.getElementById('autores');
-
+    const bookwrap = document.getElementById('book-wrap');
     // si viene ?isbn=123 en la URL, auto-carga
     const url = new URL(location.href);
     const initialIsbn = url.searchParams.get('isbn');
@@ -24,6 +24,7 @@
       if (!isbn) { statusEl.textContent = 'Ingresa un ISBN.'; return; }
 
       statusEl.textContent = 'Buscando…';
+      bookwrap.hidden = true;
       card.hidden = true;
       autores.innerHTML = '';
 
@@ -39,6 +40,7 @@
           li.textContent = n;
           autores.appendChild(li);
         });
+        bookwrap.hidden = false;
         card.hidden = false;
         statusEl.textContent = '';
       } catch (err) {

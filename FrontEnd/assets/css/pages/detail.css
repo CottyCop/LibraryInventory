@@ -1,0 +1,59 @@
+
+#card h2{
+  font-size: var(--fs-h2);
+  margin: 0 0 var(--space-2);
+}
+
+#autores{
+  margin: var(--space-2) 0 0 20px;
+}
+
+
+body{
+  background-image: url('../../img/BibliotecaAntigua.png');
+  background-size: cover;          /* La imagen cubre todo el fondo sin distorsionarse */
+  background-repeat: no-repeat;    /* Evita que se repita en mosaico */
+  background-position: center;     /* Centra la imagen horizontal y verticalmente */
+  background-attachment: fixed;    /* (Opcional) Hace que el fondo quede fijo al hacer scroll */
+}
+
+.book-wrap{
+  display: grid;             /* truco simple para centrar */
+  place-items: center;       /* centra el hijo (.book) en ambos ejes */
+  margin-block: var(--space-6);
+}
+
+.book{
+  position: relative; 
+  width: min(950px, 96vw);   /* tamaño máximo y responsivo */
+  aspect-ratio: 3 / 2;       /* relación de aspecto parecida a un libro abierto */
+  background: url('../../img/LibroBlanco.png') center/contain no-repeat;
+  /*  ruta desde detail.css (está en assets/css/pages) → ../../img/  */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  padding: 12% 8%;              /* top/bottom 12%, left/right 8% */
+  color: #222;                  /* texto oscuro sobre páginas blancas */
+  border-radius: var(--radius); /* opcional, puedes quitarlo */
+}
+
+.page{
+  overflow: auto;               /* por si hay mucho contenido */
+  line-height: 1.5;
+}
+
+/* Colocación explícita (por claridad) */
+.page.left  { grid-column: 1; }
+.page.right { grid-column: 2; }
+
+/* Ajustes de tipografía dentro del libro (opcionales) */
+.card h2{ 
+  font-size: var(--fs-h2);
+  margin: 0 0 var(--space-2);
+  color: #222;               /* oscuro sobre páginas blancas */
+}
+
+.book p { margin: 0 0 var(--space-2); }
+.card .muted{ color: #666; }
+
+#autores { margin: var(--space-2) 0 0 1rem; }

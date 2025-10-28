@@ -1,0 +1,21 @@
+
+.pagination{
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+  margin-top: var(--space-3);
+}
+
+#status{
+  min-height: 1.25rem;
+}
+
+/* ========== Fondo de la página principal ========== */
+body{
+  background-image: url('../../img/BibliotecaAntigua.png');
+  background-size: cover;          /* La imagen cubre todo el fondo sin distorsionarse */
+  background-repeat: no-repeat;    /* Evita que se repita en mosaico */
+  background-position: center;     /* Centra la imagen horizontal y verticalmente */
+  background-attachment: fixed;    /* (Opcional) Hace que el fondo quede fijo al hacer scroll */
+}
+
